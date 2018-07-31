@@ -3,7 +3,7 @@ pipeline {
     environment {
         //be sure to replace "willbla" with your own Docker Hub username
         DOCKER_IMAGE_NAME = "sektasoldier/train-schedule"
-        CANARY_REPLICAS = 0
+        CANARY_REPLICAS = 0  //this works in post section onley for cleaning canary pods but can't be config there but jenkinsfile specific
     }
     stages {
         stage('Build') {
@@ -61,6 +61,7 @@ pipeline {
             steps {
                 script {
                     sleep (time: 5)
+                    //  HTTP Request Plugin should be installed for this test
                     def response = httpRequest (
                         url: "http://$KUBE_MASTER_IP:8081/",
                         timeout: 30
